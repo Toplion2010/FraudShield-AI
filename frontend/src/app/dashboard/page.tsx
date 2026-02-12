@@ -212,9 +212,9 @@ export default function DashboardPage() {
   }, []);
 
   const graphLinks = graphData?.edges.map((e: GraphEdge) => ({
+    ...e,
     source: e.source,
     target: e.target,
-    ...e
   })) || [];
 
   // Person Details Modal Component

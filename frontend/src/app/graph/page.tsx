@@ -6,6 +6,8 @@ import axios from 'axios';
 import { ArrowLeft, Download, Search, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
 // Dynamic import to avoid SSR issues with force-graph
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false });
 
@@ -90,7 +92,7 @@ export default function GraphPage() {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/graph/ego-tree', {
+      const response = await axios.post(`${API_BASE_URL}/api/graph/ego-tree`, {
         client_id: clientId.trim(),
         depth: depth,
         min_fraud_score: minScore,
@@ -158,9 +160,9 @@ export default function GraphPage() {
 
   // Transform data for force-graph
   const graphLinks = graphData?.edges.map(e => ({
+    ...e,
     source: e.source,
     target: e.target,
-    ...e
   })) || [];
 
   return (
